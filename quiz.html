@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reset Type Quiz — Misogi Lioness</title>
+  <meta name="description" content="10-question reset type quiz with immediate results." />
+  <style>
+    :root{
+      --charcoal:#0f1114;
+      --sand:#d8c7a6;
+      --forest:#0f2a1f;
+      --orange:#ff5a1f;
+      --text:#eef0f3;
+      --muted:rgba(238,240,243,.78);
+      --card:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --max: 920px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,90,31,.18), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(15,42,31,.35), transparent 55%),
+        linear-gradient(180deg, #07080a, var(--charcoal));
+      line-height:1.45;
+      padding:28px 16px 60px;
+    }
+    .wrap{max-width:var(--max); margin:0 auto;}
+    a{color:inherit}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 16px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:999px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; font-weight:750; letter-spacing:.2px;}
+    .mark{
+      width:28px; height:28px; border-radius:9px;
+      background: conic-gradient(from 220deg, var(--orange), #ff905e, var(--forest), var(--orange));
+      box-shadow: 0 12px 30px rgba(255,90,31,.18);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .btn{
+      appearance:none; border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 14px; border-radius:999px;
+      font-weight:700; cursor:pointer;
+      text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+      transition:transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.22)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(255,90,31,.95), rgba(255,90,31,.65));
+      border-color: rgba(255,90,31,.45);
+      box-shadow: 0 18px 50px rgba(255,90,31,.18);
+    }
+    h1{
+      margin:22px 0 8px;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height:1.08;
+      letter-spacing:-.02em;
+    }
+    .sub{color:var(--muted); margin:0 0 18px; max-width:70ch;}
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+      margin-top:14px;
+    }
+    .disclaimer{
+      color: rgba(238,240,243,.72);
+      font-size:13px;
+      margin-top:10px;
+      border-left: 3px solid rgba(255,90,31,.55);
+      padding-left: 12px;
+    }
+    .q{
+      padding:14px 14px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(0,0,0,.18);
+    }
+    .q + .q{margin-top:12px}
+    .q h3{margin:0 0 10px; font-size:15px; letter-spacing:-.01em}
+    .opts{display:grid; gap:8px}
+    .opt{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 10px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+    }
+    .opt:hover{border-color: rgba(255,90,31,.25)}
+    .opt input{margin-top:2px}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .note{color:rgba(238,240,243,.65); font-size:13px; margin-top:10px}
+    .results{display:none}
+    .result-title{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin:0 0 8px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px; border-radius:999px;
+      background: rgba(255,90,31,.10);
+      border:1px solid rgba(255,90,31,.22);
+      color: rgba(255,210,195,.95);
+      font-weight:750; font-size:12px;
+    }
+    .muted{color:var(--muted)}
+    ul{margin:10px 0 0; padding-left:18px; color:var(--muted)}
+    li{margin:8px 0}
+    .hr{height:1px; background: rgba(255,255,255,.10); margin:16px 0}
+    .tieHint{
+      display:none;
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      color: rgba(238,240,243,.80);
+      font-size: 13px;
+    }
+    .error{
+      display:none;
+      margin-top:12px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,90,31,.35);
+      background: rgba(255,90,31,.08);
+      color: rgba(255,225,215,.95);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="topbar">
+      <a class="brand" href="index.html" title="Back to main page">
+        <span class="mark" aria-hidden="true"></span>
+        <span>Misogi Lioness</span>
+      </a>
+      <a class="btn" href="index.html">Back</a>
+    </header>
+
+    <h1>10-Question Reset Type Questionnaire</h1>
+    <p class="sub">
+      Answer honestly. This isn’t about motivation. It’s about clarity — and choosing a reset you can complete.
+    </p>
+
+    <div class="disclaimer">
+      This quiz is grounded in my own life experience and research, and was created with the assistance of AI as a collaborative thinking and structuring partner.
+    </div>
+
+    <form id="quizForm" class="card" novalidate>
+      <div class="q" data-q="1">
+        <h3>1. When you think about “starting fresh,” what’s your gut reaction?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q1" value="A" required> A — I want something tough to push me out of my comfort zone.</label>
+          <label class="opt"><input type="radio" name="q1" value="B"> B — I want simple structure to stop me from improvising.</label>
+          <label class="opt"><input type="radio" name="q1" value="C"> C — I feel too tired to start anything intense right now.</label>
+          <label class="opt"><input type="radio" name="q1" value="D"> D — I want a plan, but I’m scared of messing it up.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="2">
+        <h3>2. Which sentence describes your current energy level best?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q2" value="A" required> A — I’ve got energy if I have a mission.</label>
+          <label class="opt"><input type="radio" name="q2" value="B"> B — I’m up and down, depending on how chaotic the day is.</label>
+          <label class="opt"><input type="radio" name="q2" value="C"> C — I feel run-down, foggy, or depleted.</label>
+          <label class="opt"><input type="radio" name="q2" value="D"> D — I’m functional but mentally tense or overstimulated.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="3">
+        <h3>3. What scares you more?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q3" value="A" required> A — Not being challenged enough.</label>
+          <label class="opt"><input type="radio" name="q3" value="B"> B — A plan that’s too complicated.</label>
+          <label class="opt"><input type="radio" name="q3" value="C"> C — Feeling even more exhausted.</label>
+          <label class="opt"><input type="radio" name="q3" value="D"> D — Losing control or failing.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="4">
+        <h3>4. In hard moments, what do you tend to do?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q4" value="A" required> A — Push through.</label>
+          <label class="opt"><input type="radio" name="q4" value="B"> B — Drift into snacking or disorganized eating.</label>
+          <label class="opt"><input type="radio" name="q4" value="C"> C — Shut down and do the bare minimum.</label>
+          <label class="opt"><input type="radio" name="q4" value="D"> D — Overthink and tighten control.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="5">
+        <h3>5. How do you feel about hunger?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q5" value="A" required> A — I can handle it; it doesn’t scare me.</label>
+          <label class="opt"><input type="radio" name="q5" value="B"> B — It stresses me a bit, but I survive.</label>
+          <label class="opt"><input type="radio" name="q5" value="C"> C — It hits me hard — I get shaky, tired, or emotional.</label>
+          <label class="opt"><input type="radio" name="q5" value="D"> D — I manage it tightly and keep things predictable.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="6">
+        <h3>6. How is your sleep, honestly?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q6" value="A" required> A — Decent, unless something exciting is coming.</label>
+          <label class="opt"><input type="radio" name="q6" value="B"> B — All over the place.</label>
+          <label class="opt"><input type="radio" name="q6" value="C"> C — Poor or light; I wake up tired.</label>
+          <label class="opt"><input type="radio" name="q6" value="D"> D — Usually okay, but my mind runs a lot.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="7">
+        <h3>7. How do you respond to rules?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q7" value="A" required> A — Give me rules — I thrive.</label>
+          <label class="opt"><input type="radio" name="q7" value="B"> B — I want rules, but not a military operation.</label>
+          <label class="opt"><input type="radio" name="q7" value="C"> C — Too many rules feel overwhelming.</label>
+          <label class="opt"><input type="radio" name="q7" value="D"> D — I follow rules perfectly… until I crack.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="8">
+        <h3>8. How often do you feel guilty about food or exercise?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q8" value="A" required> A — Rarely.</label>
+          <label class="opt"><input type="radio" name="q8" value="B"> B — Often, because I lose track.</label>
+          <label class="opt"><input type="radio" name="q8" value="C"> C — When I’m tired, everything feels like a failure.</label>
+          <label class="opt"><input type="radio" name="q8" value="D"> D — Almost daily — I expect too much from myself.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="9">
+        <h3>9. If tomorrow you had to do one reset, which feels instinctively “right”?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q9" value="A" required> A — Something hard: a fast, a challenge.</label>
+          <label class="opt"><input type="radio" name="q9" value="B"> B — A structured day of normal meals.</label>
+          <label class="opt"><input type="radio" name="q9" value="C"> C — A recovery day with rest, hydration, early sleep.</label>
+          <label class="opt"><input type="radio" name="q9" value="D"> D — A flexible day with some structure but freedom.</label>
+        </div>
+      </div>
+
+      <div class="q" data-q="10">
+        <h3>10. What would make you feel proud after 24 hours?</h3>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="q10" value="A" required> A — Doing something difficult and completing it.</label>
+          <label class="opt"><input type="radio" name="q10" value="B"> B — Sticking to a simple plan without slipping.</label>
+          <label class="opt"><input type="radio" name="q10" value="C"> C — Feeling rested and mentally clear for once.</label>
+          <label class="opt"><input type="radio" name="q10" value="D"> D — Loosening the grip without losing control.</label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" type="submit">See My Reset Type</button>
+        <button class="btn" type="button" id="resetBtn">Reset Answers</button>
+      </div>
+
+      <div class="error" id="errorBox">
+        Please answer all 10 questions. Don’t overthink it — pick the closest truth.
+      </div>
+
+      <div class="tieHint" id="tieHint">
+        You’re between two types. Read both and choose the one that stings a bit more — the one you’d rather argue with. Then do one reset within 7 days.
+      </div>
+    </form>
+
+    <section id="results" class="card results" aria-live="polite">
+      <div class="result-title">
+        <h2 style="margin:0">Your Result</h2>
+        <span class="pill" id="scorePill">A:0 B:0 C:0 D:0</span>
+      </div>
+      <p class="muted" style="margin-top:6px">
+        This is a mirror, not a verdict. Choose honestly — then act.
+      </p>
+
+      <div class="hr"></div>
+
+      <div id="resultBlocks"></div>
+
+      <div class="hr"></div>
+
+      <div class="muted" style="font-size:13px">
+        Big picture: Type A → Misogi immediately. Type B → Order before edge. Type C → Capacity before discipline. Type D → Flexibility before intensity.
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const TYPE_CONTENT = {
+      A: {
+        title: "TYPE A — CHALLENGE-DRIVEN",
+        status: "Status: already ready for Misogi",
+        goal: "Goal: create a clean identity rupture → “I can trust myself again”",
+        blocks: [
+          {
+            heading: "🔥 Challenge examples",
+            items: [
+              "<b>Short, intense endurance challenge</b><br>Example: 2–4 day cycling trip with a distance that scares you; long-distance walking (40–50 km per day for several days); no luxury, no backup plan.<br><span style='opacity:.85'>Why this works:</span> Type A gains confidence through direct confrontation with difficulty. The short time frame prevents overthinking and forces presence.",
+              "<b>48-hour fast (if health allows)</b><br>Example: water / electrolytes only; no productivity optimization, no “biohacking performance.”<br><span style='opacity:.85'>Why this works:</span> This strips control, comfort, and distraction at once. For Type A, fasting is not about weight or discipline — it’s about proving internal command under pressure.",
+              "<b>Public, irreversible commitment</b><br>Example: announce a pilgrimage, race, or long walk with a fixed date; book and pay for something non-refundable.<br><span style='opacity:.85'>Why this works:</span> Type A sharpens when there is no exit. Public stakes collapse hesitation and activate decisive identity."
+            ]
+          }
+        ],
+        produces: "👉 What this produces: Clear before/after identity shift. “I faced something real and didn’t quit.”"
+      },
+      B: {
+        title: "TYPE B — CHAOS-DRIVEN",
+        status: "Status: not ready for Misogi yet",
+        goal: "Goal: restore order and self-trust through completion, not intensity",
+        blocks: [
+          {
+            heading: "🌪️ Challenge examples",
+            items: [
+              "<b>One-week rigid daily structure challenge</b><br>Example: fixed wake time; fixed meals; fixed training or walking time; no exceptions for 7 days.<br><span style='opacity:.85'>Why this works:</span> This is a Misogi for chaos-driven people. The challenge is not difficulty — it’s consistency.",
+              "<b>Single-task completion challenge</b><br>Example: finish one long-avoided project in 5–7 days; no multitasking, no new goals allowed.<br><span style='opacity:.85'>Why this works:</span> Type B lacks the experience of closing loops. Completion rebuilds identity faster than ambition.",
+              "<b>Environmental order challenge</b><br>Example: one weekend to radically simplify home / digital life; remove clutter, subscriptions, open tabs, unfinished plans.<br><span style='opacity:.85'>Why this works:</span> For Type B, external order restores internal calm. This creates the capacity required for future Misogi."
+            ]
+          }
+        ],
+        produces: "👉 What this produces: “I can keep my word to myself.” That’s the foundation for later challenge."
+      },
+      C: {
+        title: "TYPE C — EXHAUSTED",
+        status: "Status: not ready for Misogi",
+        goal: "Goal: rebuild capacity before identity work",
+        blocks: [
+          {
+            heading: "🌑 Challenge examples (yes, these are challenges)",
+            items: [
+              "<b>Sleep-first discipline challenge (14 days)</b><br>Example: non-negotiable bedtime; no late screens; no “just one more thing.”<br><span style='opacity:.85'>Why this works:</span> For Type C, the challenge is resting without guilt. That’s much harder than pushing.",
+              "<b>Subtraction challenge</b><br>Example: remove one major draining obligation for 14–30 days; no replacement allowed.<br><span style='opacity:.85'>Why this works:</span> Exhaustion often comes from over-commitment. This challenge rebuilds capacity through restraint.",
+              "<b>Daily low-intensity movement ritual</b><br>Example: daily walking; gentle strength; no intensity allowed.<br><span style='opacity:.85'>Why this works:</span> This restores nervous system trust and bodily safety — prerequisites for any future Misogi."
+            ]
+          }
+        ],
+        produces: "👉 What this produces: “I am allowed to recover, and I get stronger when I do.” Only after this does Misogi make sense."
+      },
+      D: {
+        title: "TYPE D — PERFECTION / CONTROL-LOCKED",
+        status: "Status: technically capable, psychologically brittle",
+        goal: "Goal: dismantle rigidity without collapsing discipline",
+        blocks: [
+          {
+            heading: "🧱 Challenge examples",
+            items: [
+              "<b>Planned imperfection challenge</b><br>Example: choose one domain (training, food, work); intentionally allow 10–15% imperfection; no correction allowed.<br><span style='opacity:.85'>Why this works:</span> This attacks the core fear: “If I loosen control, everything falls apart.” It retrains trust.",
+              "<b>Constraint-light Misogi</b><br>Example: long walk or physical challenge, but with minimal rules; no pace targets, no tracking, no optimization.<br><span style='opacity:.85'>Why this works:</span> Type D turns everything into performance. Removing metrics restores embodied presence.",
+              "<b>Finish-without-fixing challenge</b><br>Example: publish, submit, or complete something without refining; one pass only.<br><span style='opacity:.85'>Why this works:</span> Completion without perfection breaks the collapse cycle."
+            ]
+          }
+        ],
+        produces: "👉 What this produces: “I remain disciplined even when things aren’t perfect.” That’s a huge identity shift."
+      }
+    };
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function renderType(letter){
+      const t = TYPE_CONTENT[letter];
+      const container = document.createElement("div");
+      container.className = "q";
+      container.style.marginTop = "12px";
+      container.innerHTML = `
+        <div class="pill" style="margin-bottom:10px">${escapeHtml(t.title)}</div>
+        <div class="muted" style="margin-bottom:6px"><b>${escapeHtml(t.status)}</b></div>
+        <div class="muted" style="margin-bottom:10px"><b>${escapeHtml(t.goal)}</b></div>
+        ${t.blocks.map(b => `
+          <div style="margin-top:10px">
+            <b>${escapeHtml(b.heading)}</b>
+            <ul>
+              ${b.items.map(it => `<li>${it}</li>`).join("")}
+            </ul>
+          </div>
+        `).join("")}
+        <div style="margin-top:12px; color: rgba(238,240,243,.85)">${t.produces}</div>
+      `;
+      return container;
+    }
+
+    function getCounts(form){
+      const counts = {A:0,B:0,C:0,D:0};
+      for(let i=1;i<=10;i++){
+        const v = form.querySelector(`input[name="q${i}"]:checked`)?.value;
+        if(!v) return null;
+        counts[v]++;
+      }
+      return counts;
+    }
+
+    function topLetters(counts){
+      const max = Math.max(counts.A, counts.B, counts.C, counts.D);
+      return Object.entries(counts).filter(([k,v]) => v === max).map(([k]) => k);
+    }
+
+    const form = document.getElementById("quizForm");
+    const results = document.getElementById("results");
+    const resultBlocks = document.getElementById("resultBlocks");
+    const scorePill = document.getElementById("scorePill");
+    const errorBox = document.getElementById("errorBox");
+    const tieHint = document.getElementById("tieHint");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      errorBox.style.display = "none";
+      tieHint.style.display = "none";
+
+      const counts = getCounts(form);
+      if(!counts){
+        errorBox.style.display = "block";
+        return;
+      }
+
+      scorePill.textContent = `A:${counts.A}  B:${counts.B}  C:${counts.C}  D:${counts.D}`;
+      const winners = topLetters(counts);
+
+      // Render results
+      resultBlocks.innerHTML = "";
+      winners.forEach((w) => resultBlocks.appendChild(renderType(w)));
+
+      // If tie, show tie hint
+      if(winners.length > 1){
+        tieHint.style.display = "block";
+      }
+
+      results.style.display = "block";
+      results.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      form.reset();
+      results.style.display = "none";
+      errorBox.style.display = "none";
+      tieHint.style.display = "none";
+      resultBlocks.innerHTML = "";
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+  </script>
+</body>
+</html>

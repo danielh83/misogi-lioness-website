@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Misogi Lioness — Walk Through Fire. Rise Unshaken.</title>
+  <meta name="description" content="Misogi Lioness: deliberate resets for midlife women who feel capable but not fully expressed." />
+
+  <style>
+    :root{
+      --charcoal:#0f1114;
+      --sand:#d8c7a6;
+      --forest:#0f2a1f;
+      --orange:#ff5a1f;
+      --text:#eef0f3;
+      --muted:rgba(238,240,243,.78);
+      --card:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --max: 980px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(255,90,31,.10), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(15,42,31,.30), transparent 55%),
+        linear-gradient(180deg, #07080a, var(--charcoal));
+      line-height:1.45;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 16px 70px;}
+
+    /* Top bar */
+    .topbar{
+      position:fixed;
+      left:50%;
+      top:14px;
+      transform:translateX(-50%);
+      width:min(var(--max), calc(100% - 32px));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:999px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+      z-index:50;
+      box-shadow: 0 10px 30px rgba(0,0,0,.30);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; font-weight:800; letter-spacing:.2px;
+    }
+    .mark{
+      width:28px; height:28px; border-radius:9px;
+      background: conic-gradient(from 220deg, var(--orange), #ff905e, var(--forest), var(--orange));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 30px rgba(255,90,31,.18);
+      flex:0 0 auto;
+    }
+
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:800;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition:transform .08s ease, background .2s ease, border-color .2s ease;
+      letter-spacing:.02em;
+    }
+    .btn:hover{background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.22)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(255,90,31,.95), rgba(255,90,31,.65));
+      border-color: rgba(255,90,31,.45);
+      box-shadow: 0 18px 50px rgba(255,90,31,.18);
+    }
+
+    /* Hero */
+    .hero-banner{
+      position:relative;
+      background:url("hero.png") center center / cover no-repeat;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .hero-overlay{
+      width:100%;
+      height:100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.85)
+      );
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:96px 16px 50px; /* leaves room for fixed topbar */
+    }
+    .hero-content{
+      text-align:center;
+      max-width: 860px;
+    }
+    .hero-pre{
+      color: rgba(255,255,255,.86);
+      font-size: 18px;
+      margin: 0 0 14px;
+    }
+    h1{
+      margin: 0 0 14px;
+      font-size: clamp(34px, 4.6vw, 60px);
+      line-height:1.05;
+      letter-spacing:-.02em;
+    }
+    .hero-sub{
+      margin: 0 auto 28px;
+      max-width: 74ch;
+      color: rgba(255,255,255,.76);
+      font-size: 18px;
+    }
+    .hero-btn{
+      font-size: 18px;
+      padding: 16px 30px;
+    }
+
+    /* Content sections */
+    section.content{
+      margin-top: 28px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .col6{grid-column: span 6}
+    .col12{grid-column: span 12}
+    @media (max-width: 900px){
+      .col6{grid-column: span 12}
+      .hero-pre, .hero-sub{font-size:16px}
+    }
+
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.28);
+    }
+    h2{
+      margin:0 0 10px;
+      font-size:22px;
+      letter-spacing:-.01em;
+    }
+    p{margin:10px 0 0; color:var(--muted)}
+    ul.clean{margin:10px 0 0; padding-left:18px; color:var(--muted)}
+    ul.clean li{margin:8px 0}
+
+    .cta-band{
+      margin-top: 18px;
+      display:flex;
+      justify-content:center;
+    }
+
+    footer{
+      margin-top:34px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      color:rgba(238,240,243,.55);
+      font-size:13px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top bar with ONE CTA -->
+  <div class="topbar" aria-label="Top bar">
+    <a class="brand" href="#top" aria-label="Misogi Lioness Home">
+      <span class="mark" aria-hidden="true"></span>
+      <span>Misogi Lioness</span>
+    </a>
+
+    <a class="btn primary" href="quiz.html">TAKE THE QUIZ</a>
+  </div>
+
+  <!-- Full hero background -->
+  <main id="top" class="hero-banner" role="main">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <p class="hero-pre">For midlife women who feel capable but not fully expressed.</p>
+        <h1>Walk Through Fire. Rise Unshaken.</h1>
+        <p class="hero-sub">
+          I use Misogi — deliberate, uncomfortable resets — to interrupt drift, get honest about who you are now,
+          and rebuild your identity on purpose.
+        </p>
+        <a class="btn primary hero-btn" href="quiz.html">TAKE THE QUIZ</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="wrap">
+
+    <!-- What this is / isn't -->
+    <section class="content" aria-label="What this is and is not">
+      <div class="grid">
+        <div class="col6 card">
+          <h2>What this is</h2>
+          <p>
+            A controlled hardship designed to create a clear “before/after” in your nervous system: you show up,
+            do the work, keep your word, and walk away with earned confidence.
+          </p>
+          <ul class="clean">
+            <li>Structured challenge with clear rules and safety boundaries.</li>
+            <li>Progressive discomfort (not reckless suffering).</li>
+            <li>Built to leave you calm, capable, and proud.</li>
+          </ul>
+        </div>
+
+        <div class="col6 card">
+          <h2>What this isn’t</h2>
+          <p>
+            No vague healing language. No touristy “adventure day.” No performative hardship for Instagram.
+          </p>
+          <ul class="clean">
+            <li>Not therapy or coaching disguised as a hike.</li>
+            <li>Not an endurance race, unless you choose that arc.</li>
+            <li>Not for spectators — only for participants.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- For you if / Not for you if -->
+    <section class="content" aria-label="For you if and not for you if">
+      <div class="grid">
+        <div class="col6 card">
+          <h2>For you if…</h2>
+          <ul class="clean">
+            <li>You’re done with “someday.”</li>
+            <li>You want proof, not motivation.</li>
+            <li>You miss the feeling of being dangerous (in the good way).</li>
+            <li>You want a clean win you can’t talk yourself out of.</li>
+          </ul>
+        </div>
+
+        <div class="col6 card">
+          <h2>Not for you if…</h2>
+          <ul class="clean">
+            <li>You want comfort first.</li>
+            <li>You want someone to carry you through it.</li>
+            <li>You want a gentle wellness vibe.</li>
+            <li>You want a checklist without transformation.</li>
+          </ul>
+        </div>
+
+        <div class="col12 cta-band">
+          <a class="btn primary" href="quiz.html">TAKE THE QUIZ</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Misogi Lioness</div>
+      <div>One-page hub + separate quiz page.</div>
+    </footer>
+
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
